@@ -1,0 +1,81 @@
+.game {
+    /* width: 25%; */
+    width: 462px;
+    margin: auto;
+    display: grid;
+    /* grid-template-columns: auto auto auto auto; */
+    grid-template-columns:106.25px 106.25px 106.25px 106.25px;
+    grid-template-rows: 106.25px 106.25px 106.25px 106.25px;
+    z-index: 10;
+    background-color: #bbada0;
+    grid-column-gap: 12px;
+    grid-row-gap: 12px;
+    border: 12px #bbada0 solid;
+}
+
+/* carful with this shit  */
+div[class^='boardSquare'], div[class*=' boardSquare']{ 
+    /* width: 106.25px; */
+    /* height: 106.25px; */
+    /* background: rgba(238, 228, 218, 0.35); */
+    background-color: rgba(238, 228, 218, 0.35);
+    /* display: block; */
+    /* height: 0; */
+    /* padding-bottom: 100%; */
+}
+
+.boardSquareTextWrapper {
+    height: 100%;
+    display: grid;
+}
+
+.numberText {
+    padding: 25%;
+    font-size: 55px;
+    font-weight: 700;
+}
+
+/* game colors */
+.color2 {
+    background-color: #eee4da;
+}
+
+.color4 {
+    background: #ede0c8;
+}
+
+.color8 {
+    background: #f2b179;
+}
+
+.color16 {
+    background: #f59563;
+}
+
+.color32 {
+    background: #f67c5f;
+}
+
+.color64 {
+    background: #f65e3b;
+}
+
+.color128 {
+    background: #bb5215;
+}
+
+.color256 {
+    background: #12c42f;
+}
+
+.color512 {
+    background: #cc14a4;
+}
+
+.color1024 {
+    background: #1c9dbd;
+}
+
+.color2048 {
+    background: #000000;
+}
