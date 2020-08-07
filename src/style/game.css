@@ -30,52 +30,69 @@ div[class^='boardSquare'], div[class*=' boardSquare']{
 }
 
 .numberText {
-    padding: 25%;
+    /* padding: 25%; */
+    align-self: center;
     font-size: 55px;
     font-weight: 700;
 }
 
+.threeDigitNumber {
+    font-size: 45px;
+    /* padding-left: 14%; */
+}
+
+.fourDigitNumber {
+    font-size: 38px;
+    /* padding-left: 11%; */
+}
+
 /* game colors */
 .color2 {
-    background-color: #eee4da;
+    background-color: #eee4da!important;
 }
 
 .color4 {
-    background: #ede0c8;
+    background: #ede0c8!important;
 }
 
 .color8 {
-    background: #f2b179;
+    background: #f2b179!important;
+    color:white!important;
 }
 
 .color16 {
-    background: #f59563;
+    background: #f59563!important;
+    color:white!important;
+
 }
 
 .color32 {
-    background: #f67c5f;
+    background: #f67c5f!important;
+    color:white!important;
 }
 
 .color64 {
-    background: #f65e3b;
+    background: #f65e3b!important;
+    color:white!important;
 }
 
 .color128 {
-    background: #bb5215;
+    background: #bb5215!important;
+    color:white!important;
 }
 
 .color256 {
-    background: #12c42f;
+    background: #12c42f!important;
 }
 
 .color512 {
-    background: #cc14a4;
+    background: #cc14a4!important;
 }
 
 .color1024 {
-    background: #1c9dbd;
+    background: #1c9dbd!important;
 }
 
 .color2048 {
-    background: #000000;
+    background: #000000!important;
 }
