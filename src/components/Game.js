@@ -1,11 +1,27 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { getStartGameBoard, keyPressed } from '../logic/logic'
+import $ from "jquery"
 
-document.onkeydown = keyPressed;
+const renderBoardChanged = ({ moved, copyBoard }) => {
+    if (!moved || !copyBoard)
+        return
+    console.log(moved, copyBoard)
+    //transform: translateX(200px);
+    moved.forEach(movedItem => {
+        let boardSquareClassName = ".boardSquare" + movedItem.from
+        // let movingDistance =  $(boardSquareClassName).height() * movedItem.to
+        let movingDistance = $(boardSquareClassName).height() * movedItem.steps
+        if (movedItem.direction === "up")
+            $(boardSquareClassName).css({ "transform": "translateY(-" + movingDistance + "px)" })
+        else if (movedItem.direction === "down")
+            $(boardSquareClassName).css({ "transform": "translateY(" + movingDistance + "px)" })
+    });
+}
 
-let boardArr = getStartGameBoard();
-const Game = (props) => {
+document.onkeydown = (e) => renderBoardChanged(keyPressed(e));
+
+const renderBoard = (boardArr) => {
     let counter = -1
     return (
         <div className="game">
@@ -23,6 +39,11 @@ const Game = (props) => {
             })}
         </div>
     )
+}
+
+let boardArr = getStartGameBoard();
+const Game = (props) => {
+    return renderBoard(boardArr)
 }
 
 const mapStateToProps = state => state
