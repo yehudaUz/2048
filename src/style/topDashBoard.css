@@ -1,0 +1,74 @@
+.topDashBoard {
+    width: 462px;
+    margin: auto;
+}
+
+.topDashBoard-topPart {
+    display: flex;
+    justify-content: space-between;
+}
+
+.gameTitle {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.score, .bestScore {
+    display: flex;
+    flex-direction: column;
+    background: #bbada0;
+    color: white;
+    border-radius: 3px;
+    align-self: start;
+    padding: 0.5rem 1.25rem;
+}
+
+.bestScoreTitle, .scoreTitle {
+    font-size: 11px;
+    line-height: 13px;
+    margin-bottom: 5px;
+    opacity: 0.5;
+}
+
+.theBestScore, .theScore {
+    font-size: 25px;
+    line-height: 25px;
+}
+
+.scoreContiner {
+    display: flex;
+}
+
+.score {
+    margin-right: 10px;
+}
+
+.newGameButton {
+    /* padding: 15px 25px; */
+    background: #8f7a66;
+    height: 40px;
+    /* line-height: 42px; */
+    /* font-size: 25px; */
+    /* height: 25px; */
+    /* line-height: 47px; */
+    /* font-weight: bold; */
+    /* border-radius: 3px; */
+    font-weight: 700;
+    border: 0px;
+    border-radius: 3px;
+    color: rgb(236, 235, 235);
+    font-size: 1.05em;
+    padding: 0.5em 1em;
+}
+
+.topDashBoard-bottomPart {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.topDashBoard-explanationTitle {
+    font-size: 1.05em;
+}
