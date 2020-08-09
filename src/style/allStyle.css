@@ -6,3 +6,7 @@ body {
   background: #faf8ef;
   margin-top: 80px;
 }
+
+.translateCancel {
+  transform: none!important;
+}

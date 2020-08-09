@@ -9,11 +9,11 @@ const TopDashBoard = (props) => {
                 <div className="scoreContiner">
                     <div className="score">
                         <label className="scoreTitle">SCORE</label>
-                        <label className="theScore">{"133"}</label>
+                        <label className="theScore">{props.score}</label>
                     </div>
                     <div className="bestScore">
                         <label className="bestScoreTitle">BEST</label>
-                        <label className="theBestScore">{"1345"}</label>
+                        <label className="theBestScore">{props.bestScore}</label>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,3 @@
-// let boardArr = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
-//[2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 11, 12, 13, 14, 15]
 
 const randomPosition = () => Math.floor(Math.random() * 16);
 const randomNumber2or4 = () => Math.floor(Math.random() * 2) === 0 ? 2 : 4;
@@ -34,7 +32,7 @@ export const getStartGameBoard = (board) => {
     return board
 }
 
-const makeBoardAfterMove = (rows, cols, keyCode) => {
+const makeBoardFromRowsCols = (rows, cols, keyCode) => {
     let boardArr = []
     if (keyCode == '38' || keyCode == '40') {//up - down = cols
         for (let i = 0; i < cols.length; i++) {
@@ -51,9 +49,69 @@ const makeBoardAfterMove = (rows, cols, keyCode) => {
     return boardArr
 }
 
+export const joinNumbers = (board, direction) => {
+    let joinedPosition = [], isJoin = false
+    let cols = extractCols(board), rows = extractRows(board)
 
-export const keyPressed = (e, board) => {
-    let moved = []
+    if (direction == '38') { //up
+        for (let i = 0; i < cols.length; i++) {
+            let col = cols[i];
+            for (let j = 0; j < col.length - 1; j++) {
+                if (col[j] != "" && col[j] === col[j + 1]) {
+                    col[j] *= 2
+                    col[j + 1] = ""
+                    joinedPosition.push(j * 4 + i)
+                    isJoin = true
+                }
+            }
+        }
+    }
+    else if (direction == '40') { //down
+        for (let i = 0; i < cols.length; i++) {
+            let col = cols[i];
+            for (let j = col.length - 1; j > 0; j--) {
+                if (col[j] != "" && col[j] === col[j - 1]) {
+                    col[j - 1] *= 2
+                    col[j] = ""
+                    joinedPosition.push(j * 4 + i)
+                    isJoin = true
+                }
+            }
+        }
+    }
+    else if (direction == '37') { //left
+        for (let i = 0; i < rows.length; i++) {
+            let row = rows[i];
+            for (let j = 0; j < row.length - 1; j++) {
+                if (row[j] != "" && row[j] === row[j + 1]) {
+                    row[j] *= 2
+                    row[j + 1] = ""
+                    joinedPosition.push(i * 4 + j)
+                    isJoin = true
+                }
+            }
+        }
+    }
+    else if (direction == '39') { //right
+        for (let i = 0; i < rows.length; i++) {
+            let row = rows[i];
+            for (let j = row.length - 1; j > 0; j--) {
+                if (row[j] != "" && row[j] === row[j - 1]) {
+                    row[j - 1] *= 2
+                    row[j] = ""
+                    joinedPosition.push(i * 4 + j)
+                    isJoin = true
+                }
+            }
+        }
+    }
+
+    let boardAfterJoinedNumbers = makeBoardFromRowsCols(rows, cols, direction)
+    return { boardAfterJoinedNumbers, joinedPosition, isJoin }
+}
+
+export const keyPressed = (e, board, joinedPosition = null, moved = []) => {
+    // let moved = []//, joinedNumbers = []
     let cols = extractCols(board), rows = extractRows(board)
 
     if (e.keyCode == '38' || e.keyCode == '40' || e.keyCode == '37' || e.keyCode == '39') {
@@ -137,8 +195,17 @@ export const keyPressed = (e, board) => {
                 }
             }
         }
-        let boardAfterMove = makeBoardAfterMove(rows, cols, e.keyCode)
-        return { moved, board, boardAfterMove }
+
+        let boardAfterMove = makeBoardFromRowsCols(rows, cols, e.keyCode)
+        let joinedNumbers = joinNumbers(boardAfterMove, e.keyCode, moved)
+
+        if (joinedNumbers.isJoin && joinedPosition === null) //joined made need to move again for joined numbers
+            return keyPressed(e, joinedNumbers.boardAfterJoinedNumbers, joinedNumbers.joinedPosition, moved)
+        else if (joinedPosition === null) //no join return normal 
+            return { moved, board, boardAfterMove, joinedPosition: joinedNumbers.joinedPosition }
+        else    //return joined items
+            return { moved, board, boardAfterMove, joinedPosition: [joinedNumbers.joinedPosition, ...joinedPosition] }
+
     }
 
     return undefined

@@ -14,15 +14,11 @@
 }
 
 /* carful with this shit  */
+
 div[class^='boardSquare'], div[class*=' boardSquare'] {
-    /* width: 106.25px; */
-    /* height: 106.25px; */
-    /* background: rgba(238, 228, 218, 0.35); */
-    background-color: rgba(238, 228, 218, 0.35);
-    transition: all 0.1s linear;
-    /* display: block; */
-    /* height: 0; */
-    /* padding-bottom: 100%; */
+    background-color: #CDC1B4;
+    transition: all 0.1s ease-in;
+    height: 100%;
 }
 
 .boardSquareTextWrapper {
@@ -46,10 +42,6 @@ div[class^='boardSquare'], div[class*=' boardSquare'] {
     font-size: 38px;
     /* padding-left: 11%; */
 }
-
-/* .boardSquare13:hover {
-    transform: translateX(200px);
-} */
 
 /* game colors */
 
