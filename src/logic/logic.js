@@ -1,4 +1,4 @@
-let boardArr = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+// let boardArr = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 //[2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 11, 12, 13, 14, 15]
 
 const randomPosition = () => Math.floor(Math.random() * 16);
@@ -20,76 +20,126 @@ const extractCols = (copyBoard) => {
     return [col1, col2, col3, col4]
 }
 
-const addAtRandomPosition = () => {
+export const addAtRandomPosition = (board) => {
     let randomPos = randomPosition()
-    while (boardArr[randomPos] !== "")
+    while (board[randomPos] !== "")
         randomPos = randomPosition()
-    boardArr[randomPos] = randomNumber2or4()
+    board[randomPos] = randomNumber2or4()
+    return board
 }
 
-export const getStartGameBoard = () => {
-    addAtRandomPosition()
-    addAtRandomPosition()
+export const getStartGameBoard = (board) => {
+    addAtRandomPosition(board)
+    addAtRandomPosition(board)
+    return board
+}
+
+const makeBoardAfterMove = (rows, cols, keyCode) => {
+    let boardArr = []
+    if (keyCode == '38' || keyCode == '40') {//up - down = cols
+        for (let i = 0; i < cols.length; i++) {
+            let col = cols[i]
+            for (let j = 0; j < col.length; j++) {
+                boardArr.push(cols[j][i])
+            }
+        }
+    }
+    else if (keyCode == '39' || keyCode == '37') //right - left = rows
+        for (let i = 0; i < rows.length; i++)
+            boardArr.push(...rows[i])
+    console.log("Rows: " + rows + "\nCols: " + cols + "\nBoarArr: " + boardArr)
     return boardArr
 }
 
-export const keyPressed = (e) => {
-    // e = e || window.event;
-    //  console.log(rows())
+
+export const keyPressed = (e, board) => {
     let moved = []
-    let copyBoard = boardArr
-    let cols = extractCols(copyBoard), rows = extractRows(copyBoard)
-    if (e.keyCode == '38') { //up
-        for (let i = 0; i < cols.length; i++) {
-            let col = cols[i];
-            for (let j = 0; j < col.length; j++) {
-                let index = j - 1
-                if (col[j] != "") {
-                    // let movedLast = -1
-                    let movedCounter = 0
-                    while (col[index] == "" && index >= 0) {
-                        col[index] = col[index + 1]
-                        col[index + 1] = ""
-                        // movedLast = index
-                        movedCounter++
-                        index--
-                    }
-                    if (movedCounter != 0) {//(movedLast != -1) {
-                        // moved.push({ from: j * 4 + i, to: movedLast * 4 + i })
-                        moved.push({ from: j * 4 + i, steps: movedCounter, direction: "up" })
+    let cols = extractCols(board), rows = extractRows(board)
+
+    if (e.keyCode == '38' || e.keyCode == '40' || e.keyCode == '37' || e.keyCode == '39') {
+        if (e.keyCode == '38') { //up
+            for (let i = 0; i < cols.length; i++) {
+                let col = cols[i];
+                for (let j = 0; j < col.length; j++) {
+                    let index = j - 1
+                    if (col[j] != "") {
+                        let movedCounter = 0
+                        while (col[index] == "" && index >= 0) {
+                            col[index] = col[index + 1]
+                            col[index + 1] = ""
+                            movedCounter++
+                            index--
+                        }
+                        if (movedCounter != 0) {
+                            moved.push({ from: j * 4 + i, steps: movedCounter, direction: "up" })
+                        }
                     }
                 }
             }
         }
-        return { moved, copyBoard }
-    }
-    else if (e.keyCode == '40') { //down
-        for (let i = 0; i < cols.length; i++) {
-            let col = cols[i];
-            for (let j = col.length - 1; j >= 0; j--) {
-                let index = j
-                if (col[j] != "") {
-                    let movedCounter = 0
-                    while (col[index+1] == "" && index <= col.length - 1) {
-                        col[index+1] = col[index]
-                        col[index] = ""
-                        movedCounter++
-                        index++
-                    }
-                    if (movedCounter != 0) {
-                        moved.push({ from: j * 4 + i, steps: movedCounter, direction: "down" })
+        else if (e.keyCode == '40') { //down
+            for (let i = 0; i < cols.length; i++) {
+                let col = cols[i];
+                for (let j = col.length - 1; j >= 0; j--) {
+                    let index = j
+                    if (col[j] != "") {
+                        let movedCounter = 0
+                        while (col[index + 1] == "" && index <= col.length - 1) {
+                            col[index + 1] = col[index]
+                            col[index] = ""
+                            movedCounter++
+                            index++
+                        }
+                        if (movedCounter != 0) {
+                            moved.push({ from: j * 4 + i, steps: movedCounter, direction: "down" })
+                        }
                     }
                 }
             }
         }
-        return { moved, copyBoard }
+        else if (e.keyCode == '37') { //left
+            for (let i = 0; i < rows.length; i++) {
+                let row = rows[i];
+                for (let j = 0; j <= row.length - 1; j++) {
+                    let index = j
+                    if (row[j] != "") {
+                        let movedCounter = 0
+                        while (row[index - 1] == "" && index - 1 >= 0) {
+                            row[index - 1] = row[index]
+                            row[index] = ""
+                            movedCounter++
+                            index--
+                        }
+                        if (movedCounter != 0) {
+                            moved.push({ from: i * 4 + j, steps: movedCounter, direction: "left" })
+                        }
+                    }
+                }
+            }
+        }
+        else if (e.keyCode == '39') { //right
+            for (let i = 0; i < rows.length; i++) {
+                let row = rows[i];
+                for (let j = row.length - 1; j >= 0; j--) {
+                    let index = j
+                    if (row[j] != "") {
+                        let movedCounter = 0
+                        while (row[index + 1] == "" && index <= row.length - 1) {
+                            row[index + 1] = row[index]
+                            row[index] = ""
+                            movedCounter++
+                            index++
+                        }
+                        if (movedCounter != 0) {
+                            moved.push({ from: i * 4 + j, steps: movedCounter, direction: "right" })
+                        }
+                    }
+                }
+            }
+        }
+        let boardAfterMove = makeBoardAfterMove(rows, cols, e.keyCode)
+        return { moved, board, boardAfterMove }
     }
-    else if (e.keyCode == '37') { //left
 
-    }
-    else if (e.keyCode == '39') { //right
-
-    }
-    else
-        return {}
+    return undefined
 }
