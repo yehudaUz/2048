@@ -9,6 +9,7 @@ import TopDashBoard from './components/TopDashBoard'
 import './style/allStyle.css'
 import './style/game.css'
 import './style/topDashBoard.css'
+import './style/instructionsAndFooter.css'
 
 function App() {
   return (

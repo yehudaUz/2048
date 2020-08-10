@@ -1,26 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
-import { getStartGameBoard, keyPressed, addAtRandomPosition, joinNumbers } from '../logic/logic'
-import $, { readyException } from "jquery"
+import { getStartGameBoard, keyPressed, addAtRandomPosition, isGameOver } from '../logic/logic'
+import $ from "jquery"
 import { updateScore } from '../actions/actions'
 
+const fillArr = (value) => {
+    let arr = []
+    for (let i = 0; i < 16; i++)
+        arr.push(value)
+    return arr
+}
+
 const Game = (props) => {
-    const [board, setBoard] = React.useState(["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]);
-    let joinedNumbers = [], lastKeyClicked = ""
+    const [board, setBoard] = React.useState({ squares: fillArr(""), styles: fillArr(false) });
 
     const emptyArr = (board) => {
-        for (let i = 0; i < board.length; i++)
-            if (board[i] != "")
+        for (let i = 0; i < board.squares.length; i++)
+            if (board.squares[i] != "")
                 return false
         return true
-    }
-    const isArrayDiffrent = (board1Arr, board2Arr) => {
-        if (!board1Arr || !board2Arr || !board1Arr.length || !board2Arr.length || board1Arr.length != board2Arr.length)
-            return undefined
-        for (let i = 0; i < board1Arr.length; i++)
-            if (board1Arr[i] != board2Arr[i])
-                return true
-        return false
     }
 
     const renderBoardChanged = (keyPreassedResult) => {
@@ -37,36 +35,56 @@ const Game = (props) => {
 
         });
 
+        let arr = fillArr(false)
+
         moved.forEach(movedItem => {
             let boardSquareClassName = ".boardSquare" + movedItem.from
             let movingDistance = ($(boardSquareClassName).width() + 12) * movedItem.steps
             //blink joined position
+            // joinedPos.forEach(joinedItemPos => {
+            //     arr[joinedItemPos] = {"tranform": "scale(1.2)"}
+            // });
 
             if (movedItem.direction === "up")
-                $(boardSquareClassName).css({ "transform": "translateY(-" + movingDistance + "px)" })
+                arr[movedItem.from] = { "transform": "translateY(-" + movingDistance + "px)" }
+            //  $(boardSquareClassName).css({ "transform": "translateY(-" + movingDistance + "px)" })
             else if (movedItem.direction === "down")
-                $(boardSquareClassName).css({ "transform": "translateY(" + movingDistance + "px)" })
+                arr[movedItem.from] = { "transform": "translateY(" + movingDistance + "px)" }
+            //$(boardSquareClassName).css({ "transform": "translateY(" + movingDistance + "px)" })
             else if (movedItem.direction === "right")
-                $(boardSquareClassName).css({ "transform": "translateX(" + movingDistance + "px)" })
+                arr[movedItem.from] = { "transform": "translateX(" + movingDistance + "px)" }
+            //$(boardSquareClassName).css({ "transform": "translateX(" + movingDistance + "px)" })
             else if (movedItem.direction === "left")
-                $(boardSquareClassName).css({ "transform": "translateX(-" + movingDistance + "px)" })
+                arr[movedItem.from] = { "transform": "translateX(-" + movingDistance + "px)" }
+            //$(boardSquareClassName).css({ "transform": "translateX(-" + movingDistance + "px)" })
         });
+
+        
+
+        // setBoardStyleArr(arr)
+        setBoard({ squares: board.squares, styles: arr })
+
         return boardAfterMove
     }
 
     useEffect(() => {
-        $('div[style]').removeAttr('style');
+        setTimeout(() => {
+            if (isGameOver(board)) {
+                alert("SORRY! YOU LOST!!!")
+                window.location.reload()
+            }
+        }, 20)
     })
 
     const renderBoard = (boardArr) => {
         let counter = -1
         const jsx = (
             <div className="game">
-                {boardArr.map(number => {
+                {boardArr.squares.map(number => {
                     counter++
                     return (
-                        <div className="boardSquareWrapper">
-                            <div key={counter} className={"boardSquare" + counter}>
+                        <div className="boardSquareWrapper" key={counter}>
+                            <div key={counter} className={"boardSquare" + counter} style={boardArr.styles[counter] !== false ? boardArr.styles[counter] : { transform: "none" }} >
                                 <div className={"boardSquareTextWrapper color" + number}>
                                     <label className={"numberText" +
                                         (number.toString().length === 3 ? " threeDigitNumber" : "") +
@@ -79,29 +97,38 @@ const Game = (props) => {
             </div>
         )
 
+        // setTimeout(() => {
+        //  $('div[style]').removeAttr('style');
+        //  setBoardStyleArr(SetFalseArr())
+        // }, 155)
+
         return jsx
     }
 
     let prevDate = new Date();
     document.onkeydown = (e) => {
+        // e.preventDefault()
         if ((new Date()) - prevDate < 80)
             return
         prevDate = new Date();
 
-        lastKeyClicked = e.keyCode
         let boardAfterChange = renderBoardChanged(keyPressed(e, board))
 
         if (boardAfterChange) {
             setTimeout(() => {
+                //  setBoardStyleArr(SetFalseArr())
+                // setBoardStyleArr(boardAfterChange)
+                board.squares = addAtRandomPosition(boardAfterChange)
+                setBoard(board)
 
-                setBoard(addAtRandomPosition(boardAfterChange))
-
-            }, 130)
+            }, 60)
         }
     }
 
-    if (emptyArr(board))
-        setBoard(getStartGameBoard(board))
+    if (emptyArr(board)) {
+        board.squares = getStartGameBoard(board.squares)
+        setBoard(board)
+    }
 
     return renderBoard(board)
 }

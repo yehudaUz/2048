@@ -49,6 +49,21 @@ const makeBoardFromRowsCols = (rows, cols, keyCode) => {
     return boardArr
 }
 
+const allBoardFilled = (board) => {
+    for (let i = 0; i < board.squares.length; i++)
+        if (board.squares[i] == "")
+            return false
+    return true
+}
+
+export const isGameOver = (board) => {
+    if (allBoardFilled(board) &&
+        !joinNumbers("38").isJoin && !joinNumbers("40").isJoin &&
+        !joinNumbers("39").isJoin && !joinNumbers("37").isJoin)
+        return true
+    return false
+}
+
 export const joinNumbers = (board, direction) => {
     let joinedPosition = [], isJoin = false
     let cols = extractCols(board), rows = extractRows(board)
@@ -112,7 +127,7 @@ export const joinNumbers = (board, direction) => {
 
 export const keyPressed = (e, board, joinedPosition = null, moved = []) => {
     // let moved = []//, joinedNumbers = []
-    let cols = extractCols(board), rows = extractRows(board)
+    let cols = extractCols(board.squares), rows = extractRows(board.squares)
 
     if (e.keyCode == '38' || e.keyCode == '40' || e.keyCode == '37' || e.keyCode == '39') {
         if (e.keyCode == '38') { //up
@@ -199,8 +214,11 @@ export const keyPressed = (e, board, joinedPosition = null, moved = []) => {
         let boardAfterMove = makeBoardFromRowsCols(rows, cols, e.keyCode)
         let joinedNumbers = joinNumbers(boardAfterMove, e.keyCode, moved)
 
-        if (joinedNumbers.isJoin && joinedPosition === null) //joined made need to move again for joined numbers
-            return keyPressed(e, joinedNumbers.boardAfterJoinedNumbers, joinedNumbers.joinedPosition, moved)
+
+        if (joinedNumbers.isJoin && joinedPosition === null) { //joined made need to move again for joined numbers
+            board.squares = joinedNumbers.boardAfterJoinedNumbers
+            return keyPressed(e, board/*joinedNumbers.boardAfterJoinedNumbers*/, joinedNumbers.joinedPosition, moved)
+        }
         else if (joinedPosition === null) //no join return normal 
             return { moved, board, boardAfterMove, joinedPosition: joinedNumbers.joinedPosition }
         else    //return joined items

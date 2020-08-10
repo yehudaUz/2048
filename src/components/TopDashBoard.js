@@ -18,8 +18,8 @@ const TopDashBoard = (props) => {
                 </div>
             </div>
             <div className="topDashBoard-bottomPart">
-                <lablel className="topDashBoard-explanationTitle">Join the numbers and get to the <b>2048 tile!</b></lablel>
-                <button className="newGameButton">New Game</button>
+                <label className="topDashBoard-explanationTitle">Join the numbers and get to the <b>2048 tile!</b></label>
+                <button className="newGameButton" onClick={()=> window.location.reload()}>New Game</button>
             </div>
         </div>
     )

@@ -1,0 +1,54 @@
+.instructionsAndFooter {
+    margin-top: 50px;
+    width: 462px;
+    margin: 50px auto;
+    line-height: 25px;
+    text-align: justify;
+    letter-spacing: 0.33px;
+    ;
+}
+
+.howToPlayContiner {
+    border-bottom: 1px #e6dbdb solid;
+    padding-bottom: 1.5rem;
+}
+
+.howToPlayNoteContiner {
+    margin-top: 1.5rem;
+    border-bottom: 1px #e6dbdb solid;
+    padding-bottom: 1.5rem;
+}
+
+.createdByContiner {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.paypalButton {
+    border: 0;
+    background: transparent;
+    width: 70px;
+}
+
+.donate {
+    display: inline;
+    background: #8f7a66;
+    border-radius: 3px;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #f9f6f2;
+    /* height: 40px; */
+    /* line-height: 22px; */
+    cursor: pointer;
+    vertical-align: super;
+    margin-left: 20px;
+}
+
+.svg {
+    vertical-align: sub;
+    margin-right: 15px;
+}
+
+.footerContiner {
+    text-align: center;
+}
