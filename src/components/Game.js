@@ -39,7 +39,8 @@ const Game = (props) => {
 
         moved.forEach(movedItem => {
             let boardSquareClassName = ".boardSquare" + movedItem.from
-            let movingDistance = ($(boardSquareClassName).width() + 12) * movedItem.steps
+            let gap = parseFloat(window.getComputedStyle(document.querySelector(".game")).rowGap)
+            let movingDistance = ($(boardSquareClassName).width() + gap) * movedItem.steps
             //blink joined position
             // joinedPos.forEach(joinedItemPos => {
             //     arr[joinedItemPos] = {"tranform": "scale(1.2)"}
@@ -47,21 +48,14 @@ const Game = (props) => {
 
             if (movedItem.direction === "up")
                 arr[movedItem.from] = { "transform": "translateY(-" + movingDistance + "px)" }
-            //  $(boardSquareClassName).css({ "transform": "translateY(-" + movingDistance + "px)" })
             else if (movedItem.direction === "down")
                 arr[movedItem.from] = { "transform": "translateY(" + movingDistance + "px)" }
-            //$(boardSquareClassName).css({ "transform": "translateY(" + movingDistance + "px)" })
             else if (movedItem.direction === "right")
                 arr[movedItem.from] = { "transform": "translateX(" + movingDistance + "px)" }
-            //$(boardSquareClassName).css({ "transform": "translateX(" + movingDistance + "px)" })
             else if (movedItem.direction === "left")
                 arr[movedItem.from] = { "transform": "translateX(-" + movingDistance + "px)" }
-            //$(boardSquareClassName).css({ "transform": "translateX(-" + movingDistance + "px)" })
         });
 
-        
-
-        // setBoardStyleArr(arr)
         setBoard({ squares: board.squares, styles: arr })
 
         return boardAfterMove
@@ -97,11 +91,6 @@ const Game = (props) => {
             </div>
         )
 
-        // setTimeout(() => {
-        //  $('div[style]').removeAttr('style');
-        //  setBoardStyleArr(SetFalseArr())
-        // }, 155)
-
         return jsx
     }
 
@@ -116,11 +105,8 @@ const Game = (props) => {
 
         if (boardAfterChange) {
             setTimeout(() => {
-                //  setBoardStyleArr(SetFalseArr())
-                // setBoardStyleArr(boardAfterChange)
                 board.squares = addAtRandomPosition(boardAfterChange)
                 setBoard(board)
-
             }, 60)
         }
     }

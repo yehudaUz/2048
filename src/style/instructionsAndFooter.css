@@ -5,7 +5,6 @@
     line-height: 25px;
     text-align: justify;
     letter-spacing: 0.33px;
-    ;
 }
 
 .howToPlayContiner {
@@ -51,4 +50,28 @@
 
 .footerContiner {
     text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .footerContiner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    #twitter-widget-0 {
+        margin-bottom: 1.25rem;
+        margin-left: 18px;
+    }
+    .donate {
+        margin-bottom: 1.25rem;
+    }
+    .instructionsAndFooter {
+        /* margin-top: 50px; */
+        line-height: 25px;
+        text-align: justify;
+        letter-spacing: 0.33px;
+        width: 280px;
+        margin: 50px auto;
+    }
 }

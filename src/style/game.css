@@ -1,9 +1,7 @@
 .game {
-    /* width: 25%; */
     width: 462px;
     margin: auto;
     display: grid;
-    /* grid-template-columns: auto auto auto auto; */
     grid-template-columns: 106.25px 106.25px 106.25px 106.25px;
     grid-template-rows: 106.25px 106.25px 106.25px 106.25px;
     z-index: 10;
@@ -14,10 +12,9 @@
 }
 
 /* carful with this shit  */
-
 div[class^='boardSquare'], div[class*=' boardSquare'] {
     background-color: #CDC1B4;
-    transition: all 0.1s ease-out;
+    transition: all 0.1s linear;
     height: 100%;
 }
 
@@ -92,4 +89,30 @@ div[class^='boardSquare'], div[class*=' boardSquare'] {
 
 .color2048 {
     background: #000000!important;
+}
+
+@media only screen and (max-width: 600px) {
+    .game {
+        width: 280px;
+        margin: auto;
+        display: grid;
+        /* grid-template-columns: auto auto auto auto; */
+        grid-template-columns: 64.39px 64.39px 64.39px 64.39px;
+        grid-template-rows: 64.39px 64.39px 64.39px 64.39px;
+        z-index: 10;
+        background-color: #bbada0;
+        grid-column-gap: 8px;
+        grid-row-gap: 8px;
+        border: 8px #bbada0 solid;
+    }
+    .newGameButton {
+        background: #8f7a66;
+        height: 40px;
+        font-weight: 700;
+        border: 0px;
+        border-radius: 3px;
+        color: rgb(236, 235, 235);
+        font-size: 1rem!important;
+        padding: 0.2rem 1rem!important;
+    }
 }

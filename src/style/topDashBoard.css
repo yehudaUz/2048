@@ -72,3 +72,27 @@
 .topDashBoard-explanationTitle {
     font-size: 1.05em;
 }
+
+@media only screen and (max-width: 600px) {
+    .topDashBoard {
+        width: 280px;
+        margin: auto;
+    }
+    .gameTitle {
+        font-size: 50px;
+        font-weight: bold;
+        margin: 0;
+    }
+    .score, .bestScore {
+        display: flex;
+        flex-direction: column;
+        background: #bbada0;
+        color: white;
+        border-radius: 3px;
+        align-self: start;
+        padding: 0.3rem 0.8rem;
+    }
+    .topDashBoard-explanationTitle {
+        font-size: 1em;
+    }
+}

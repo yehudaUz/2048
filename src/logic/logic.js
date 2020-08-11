@@ -126,7 +126,6 @@ export const joinNumbers = (board, direction) => {
 }
 
 export const keyPressed = (e, board, joinedPosition = null, moved = []) => {
-    // let moved = []//, joinedNumbers = []
     let cols = extractCols(board.squares), rows = extractRows(board.squares)
 
     if (e.keyCode == '38' || e.keyCode == '40' || e.keyCode == '37' || e.keyCode == '39') {
@@ -214,14 +213,13 @@ export const keyPressed = (e, board, joinedPosition = null, moved = []) => {
         let boardAfterMove = makeBoardFromRowsCols(rows, cols, e.keyCode)
         let joinedNumbers = joinNumbers(boardAfterMove, e.keyCode, moved)
 
-
         if (joinedNumbers.isJoin && joinedPosition === null) { //joined made need to move again for joined numbers
             board.squares = joinedNumbers.boardAfterJoinedNumbers
-            return keyPressed(e, board/*joinedNumbers.boardAfterJoinedNumbers*/, joinedNumbers.joinedPosition, moved)
+            return keyPressed(e, board, joinedNumbers.joinedPosition, moved)
         }
-        else if (joinedPosition === null) //no join return normal 
+        else if (joinedPosition === null) //no join - return normal 
             return { moved, board, boardAfterMove, joinedPosition: joinedNumbers.joinedPosition }
-        else    //return joined items
+        else    //return joined items after second move
             return { moved, board, boardAfterMove, joinedPosition: [joinedNumbers.joinedPosition, ...joinedPosition] }
 
     }
