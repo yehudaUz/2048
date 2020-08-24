@@ -11,7 +11,13 @@
     border: 12px #bbada0 solid;
 }
 
+.getBigger {
+    transition: all .1s ease-in-out;
+    transform: scale(1.25);
+}
+
 /* carful with this shit  */
+
 div[class^='boardSquare'], div[class*=' boardSquare'] {
     background-color: #CDC1B4;
     transition: all 0.1s linear;

@@ -11,6 +11,7 @@ const fillArr = (value) => {
     return arr
 }
 
+let lastStyleBoardArr = [], joinedPos = []
 const Game = (props) => {
     const [board, setBoard] = React.useState({ squares: fillArr(""), styles: fillArr(false) });
 
@@ -25,7 +26,8 @@ const Game = (props) => {
         if (!keyPreassedResult)
             return undefined
         let moved = keyPreassedResult.moved, board = keyPreassedResult.board,
-            boardAfterMove = keyPreassedResult.boardAfterMove, joinedPos = keyPreassedResult.joinedPosition
+            boardAfterMove = keyPreassedResult.boardAfterMove;
+        joinedPos = keyPreassedResult.joinedPosition
 
         joinedPos.forEach(element => {
             if (Array.isArray(element))
@@ -71,32 +73,73 @@ const Game = (props) => {
     })
 
     const renderBoard = (boardArr) => {
-        let counter = -1
+        let counter = -1, styleCounter = 0
         const jsx = (
             <div className="game">
                 {boardArr.squares.map(number => {
                     counter++
+                    if (boardArr.styles[counter] !== false) {
+                        // lastStyleBoardArr.push({ pos: counter, styles: boardArr.styles[counter], number: boardArr.squares[counter] })
+                        lastStyleBoardArr[counter] = { styles: boardArr.styles[counter], number: boardArr.squares[counter] }
+                        styleCounter++
+                    }
+
                     return (
                         <div className="boardSquareWrapper" key={counter}>
-                            <div key={counter} className={"boardSquare" + counter} style={boardArr.styles[counter] !== false ? boardArr.styles[counter] : { transform: "none" }} >
-                                <div className={"boardSquareTextWrapper color" + number}>
-                                    <label className={"numberText" +
-                                        (number.toString().length === 3 ? " threeDigitNumber" : "") +
-                                        (number.toString().length === 4 ? " fourDigitNumber" : "")}>{number}</label>
+                            {boardArr.styles[counter] !== false ? //with style / transform active
+                                <div key={counter} className={"boardSquare" + counter} style={boardArr.styles[counter] !== false ? boardArr.styles[counter] : { /*transform: "none"*/ }} >
+                                    <div className={"boardSquareTextWrapper color" + number}>
+                                        <label className={"numberText" +
+                                            (number.toString().length === 3 ? " threeDigitNumber" : "") +
+                                            (number.toString().length === 4 ? " fourDigitNumber" : "")}>{number}</label>
+                                    </div>
                                 </div>
-                            </div>
+                                : boardArr.styles[counter] === false && !lastStyleBoardArr[counter] ? //no stylem empty
+                                    <div key={counter} className={"boardSquare" + counter}  >
+                                        <div className={"boardSquareTextWrapper color" + number}>
+                                            <label className={"numberText" +
+                                                (number.toString().length === 3 ? " threeDigitNumber" : "") +
+                                                (number.toString().length === 4 ? " fourDigitNumber" : "")}>{number}</label>
+                                        </div>
+                                    </div>
+                                    : //had transform before
+                                    <div key={counter} className={"boardSquare" + counter} style={{ display: "none" }} >
+                                        <div className={"boardSquareTextWrapper color" + number}>
+                                            <label className={"numberText" +
+                                                (number.toString().length === 3 ? " threeDigitNumber" : "") +
+                                                (number.toString().length === 4 ? " fourDigitNumber" : "")}>{number}</label>
+                                        </div>
+                                    </div>
+                            }
                         </div>
                     )
                 })}
             </div>
         )
 
+
+        if (styleCounter == 0 && joinedPos.length > 0 && lastStyleBoardArr.length > 0) { //blink effect
+            joinedPos.forEach(pos => {
+                if (document.getElementsByClassName("boardSquare" + pos).length > 0) {
+                    setTimeout(() => {
+                        document.getElementsByClassName("boardSquare" + pos)[0].classList.add("getBigger") //style=document.getElementsByClassName("boardSquare"+pos)[0].style + " transform: scale(1.1);";
+                    }, 1)
+                    setTimeout(() => {
+                        document.getElementsByClassName("boardSquare" + pos)[0].classList.remove("getBigger") //style=document.getElementsByClassName("boardSquare"+pos)[0].style + " transform: scale(1.1);";
+                    }, 100)
+                }
+            })
+
+        }
+        if (styleCounter == 0)
+            lastStyleBoardArr = []
+
         return jsx
     }
 
     let prevDate = new Date();
     document.onkeydown = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         if ((new Date()) - prevDate < 80)
             return
         prevDate = new Date();
@@ -107,7 +150,7 @@ const Game = (props) => {
             setTimeout(() => {
                 board.squares = addAtRandomPosition(boardAfterChange)
                 setBoard(board)
-            }, 60)
+            }, 70)
         }
     }
 
