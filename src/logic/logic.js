@@ -50,16 +50,17 @@ const makeBoardFromRowsCols = (rows, cols, keyCode) => {
 }
 
 const allBoardFilled = (board) => {
-    for (let i = 0; i < board.squares.length; i++)
-        if (board.squares[i] == "")
+    for (let i = 0; i < board.length; i++)
+        if (board[i] == "")
             return false
     return true
 }
 
 export const isGameOverLost = (board) => {
-    if (allBoardFilled(board) &&
-        !joinNumbers(board, "38").isJoin && !joinNumbers(board, "40").isJoin &&
-        !joinNumbers(board, "39").isJoin && !joinNumbers(board, "37").isJoin)
+    let numbers = board.squares
+    if (allBoardFilled(numbers) &&
+        !joinNumbers(numbers, "38").isJoin && !joinNumbers(numbers, "40").isJoin &&
+        !joinNumbers(numbers, "39").isJoin && !joinNumbers(numbers, "37").isJoin)
         return true
     return false
 }

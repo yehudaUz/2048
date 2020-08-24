@@ -80,7 +80,7 @@ const Game = (props) => {
                 alert("AWEASOME!!!! YOU WON!!!!!!!")
                 window.location.reload()
             }
-        }, 20)
+        }, 60)
     })
 
     const renderBoard = (boardArr) => {
