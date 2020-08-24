@@ -139,7 +139,7 @@ const Game = (props) => {
 
     let prevDate = new Date();
     document.onkeydown = (e) => {
-        // e.preventDefault()
+        e.preventDefault()
         if ((new Date()) - prevDate < 80)
             return
         prevDate = new Date();
