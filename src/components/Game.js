@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
-import { getStartGameBoard, keyPressed, addAtRandomPosition, isGameOver } from '../logic/logic'
+import { getStartGameBoard, keyPressed, addAtRandomPosition, isGameOverLost,isGameOverWin } from '../logic/logic'
 import $ from "jquery"
 import { updateScore } from '../actions/actions'
 
@@ -9,6 +9,13 @@ const fillArr = (value) => {
     for (let i = 0; i < 16; i++)
         arr.push(value)
     return arr
+}
+
+const fullArr = (boardAfterChange) => {
+    for (let i = 0; i < boardAfterChange.length; i++)
+        if (boardAfterChange[i] === "")
+            return false;
+    return true;
 }
 
 let lastStyleBoardArr = [], joinedPos = []
@@ -65,8 +72,12 @@ const Game = (props) => {
 
     useEffect(() => {
         setTimeout(() => {
-            if (isGameOver(board)) {
+            if (isGameOverLost(board)) {
                 alert("SORRY! YOU LOST!!!")
+                window.location.reload()
+            }
+            else if (isGameOverWin(board)) {
+                alert("AWEASOME!!!! YOU WON!!!!!!!")
                 window.location.reload()
             }
         }, 20)
@@ -103,7 +114,7 @@ const Game = (props) => {
                                         </div>
                                     </div>
                                     : //had transform before
-                                    <div key={counter} className={"boardSquare" + counter} style={{ display: "none" }} >
+                                    <div key={counter} className={"boardSquare" + counter + " hide"} >
                                         <div className={"boardSquareTextWrapper color" + number}>
                                             <label className={"numberText" +
                                                 (number.toString().length === 3 ? " threeDigitNumber" : "") +
@@ -134,6 +145,13 @@ const Game = (props) => {
         if (styleCounter == 0)
             lastStyleBoardArr = []
 
+        setTimeout(() => {
+            document.querySelectorAll("[class^='boardSquare']").forEach(element => {
+                if (element.classList.contains("hide"))
+                    element.classList.remove("hide")
+            })
+        }, 50);
+
         return jsx
     }
 
@@ -146,7 +164,7 @@ const Game = (props) => {
 
         let boardAfterChange = renderBoardChanged(keyPressed(e, board))
 
-        if (boardAfterChange) {
+        if (boardAfterChange && !fullArr(boardAfterChange)) {
             setTimeout(() => {
                 board.squares = addAtRandomPosition(boardAfterChange)
                 setBoard(board)

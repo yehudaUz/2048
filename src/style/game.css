@@ -1,3 +1,7 @@
+.hide {
+    display: none;
+}
+
 .game {
     width: 462px;
     margin: auto;

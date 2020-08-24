@@ -56,11 +56,19 @@ const allBoardFilled = (board) => {
     return true
 }
 
-export const isGameOver = (board) => {
+export const isGameOverLost = (board) => {
     if (allBoardFilled(board) &&
-        !joinNumbers("38").isJoin && !joinNumbers("40").isJoin &&
-        !joinNumbers("39").isJoin && !joinNumbers("37").isJoin)
+        !joinNumbers(board, "38").isJoin && !joinNumbers(board, "40").isJoin &&
+        !joinNumbers(board, "39").isJoin && !joinNumbers(board, "37").isJoin)
         return true
+    return false
+}
+
+export const isGameOverWin = (board) => {
+    let numbers = board.squares
+    for (let i = 0; i < numbers.length; i++)
+        if (numbers[i] == 2048)
+            return true;
     return false
 }
 
