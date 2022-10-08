@@ -2,7 +2,7 @@ The famous 2048 game using react.
 
 Live at: https://agile-brushlands-91124.herokuapp.com/
 
-To run locally:
+To run:
 
 yarn install.
 
